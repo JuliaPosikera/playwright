@@ -1,18 +1,8 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "../framework/fixtures/login.js";
 import { expectedData } from "./testData/expectedResults.js";
-import { ProductsPage } from "../framework/pageObject/productsPage";
-import { cookieForStandartUser } from "./testData/preparedData";
-
-let productsPage;
 
 test.describe("products", () => {
-  test.beforeEach(async ({ page, context }) => {
-    productsPage = new ProductsPage(page);
-    await context.addCookies([cookieForStandartUser]);
-    await productsPage.open();
-  });
-
-  test("validating footer information", async ({ page }) => {
+  test("validating footer information", async ({ productsPage }) => {
     expect(await productsPage.getCopywhriteText()).toEqual(
       expectedData.copywhriteText
     );
@@ -27,7 +17,7 @@ test.describe("products", () => {
     );
   });
 
-  test("sorting price from hight to low", async ({ page }) => {
+  test("sorting price from hight to low", async ({ productsPage }) => {
     await productsPage.sortingSelector.click();
     await productsPage.sortingPriceDesc();
     const allItems = await productsPage.getAllItems();
@@ -37,7 +27,7 @@ test.describe("products", () => {
     ).toBeTruthy();
   });
 
-  test("sorting price from low to hight", async ({ page }) => {
+  test("sorting price from low to hight", async ({ productsPage }) => {
     await productsPage.sortingSelector.click();
     await productsPage.sortingPriceAsc();
     const allItems = await productsPage.getAllItems();
@@ -47,7 +37,7 @@ test.describe("products", () => {
     ).toBeTruthy();
   });
 
-  test("sorting name from a-z ", async ({ page }) => {
+  test("sorting name from a-z ", async ({ productsPage }) => {
     await productsPage.sortingSelector.click();
     await productsPage.sortingNameAz();
     const allItems = await productsPage.getAllItems();
@@ -57,7 +47,7 @@ test.describe("products", () => {
     ).toBeTruthy();
   });
 
-  test("sorting name from z-a", async ({ page }) => {
+  test("sorting name from z-a", async ({ productsPage }) => {
     await productsPage.sortingSelector.click();
     await productsPage.sortingNameZa();
     const allItems = await productsPage.getAllItems();
@@ -67,7 +57,7 @@ test.describe("products", () => {
     ).toBeTruthy();
   });
 
-  test("addItemToCart", async ({ page }) => {
+  test("addItemToCart", async ({ productsPage, page }) => {
     const allItems = await productsPage.getAllItems();
     const itemQuantity = allItems.length;
     for (const item of allItems) {
@@ -82,7 +72,7 @@ test.describe("products", () => {
     expect(cartFromLacalStorageArray.length).toEqual(itemQuantity);
   });
 
-  test("side menu comands logout", async ({ page }) => {
+  test("side menu comands logout", async ({ productsPage, page }) => {
     await productsPage.sidebarMenuButton.click();
     await productsPage.aboutMenuItem.click();
     expect(page.url()).toEqual("https://saucelabs.com/");
@@ -90,7 +80,7 @@ test.describe("products", () => {
     expect(page.url()).toEqual("https://www.saucedemo.com/inventory.html");
   });
 
-  test("logout", async ({ page, context }) => {
+  test("logout", async ({ productsPage, context, page }) => {
     await productsPage.sidebarMenuButton.click();
     await productsPage.logoutMenuItem.click();
     await expect(page.getByPlaceholder("Username")).toBeVisible();
