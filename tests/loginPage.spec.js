@@ -9,8 +9,11 @@ const user = {
 };
 const userWoutUserName = { user: "", pass: process.env.PASSWORD_STANDART };
 const userWOutPass = { user: process.env.USERNAME_STANDART, pass: "" };
-const userNotExist = { user: "error_user", pass: "se" };
-const userLocked = { user: "locked_out_user", pass: "secret_sauce" };
+const userNotExist = { user: process.env.USERNAME_NOTEXIST, pass: "1234" };
+const userLocked = {
+  user: process.env.PASSWORD_LOCKED,
+  pass: process.env.PASSWORD_STANDART,
+};
 
 test("login_w/out username", async ({ page }) => {
   const loginPage = new LoginPage(page);
