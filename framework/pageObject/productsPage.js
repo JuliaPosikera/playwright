@@ -1,4 +1,5 @@
-import { expect } from "@playwright/test";
+import { PageHeader } from "./elements/header";
+import { PageFooter } from "./elements/footer";
 
 export class ProductsPage {
   /**
@@ -7,15 +8,9 @@ export class ProductsPage {
   constructor(page) {
     this.url = "https://www.saucedemo.com/inventory.html";
     this.page = page;
-    this.cartButton = page.locator(".shopping_cart_link");
-    this.cartQuantity = page.locator(".shopping_cart_badge");
+    this.header = new PageHeader(page);
+    this.footer = new PageFooter(page);
     this.sortingSelector = page.locator(".product_sort_container");
-
-    this.sidebarMenuButton = page.locator("#react-burger-menu-btn");
-    this.allProductsMenuItem = page.locator("#inventory_sidebar_link");
-    this.aboutMenuItem = page.locator("#about_sidebar_link");
-    this.logoutMenuItem = page.locator("#logout_sidebar_link");
-    this.resetMenuItem = page.locator("#reset_sidebar_link");
   }
 
   async open() {
@@ -23,43 +18,51 @@ export class ProductsPage {
   }
 
   async sortingNameAz() {
+    await this.sortingSelector.click();
     await this.sortingSelector.selectOption("az");
   }
 
   async sortingNameZa() {
+    await this.sortingSelector.click();
     await this.sortingSelector.selectOption("za");
   }
 
-  async getLinkedInHref() {
-    return await this.page
-      .getByRole("link", { name: "LinkedIn" })
-      .getAttribute("href");
-  }
-
-  async getFacebookHref() {
-    return await this.page
-      .getByRole("link", { name: "Facebook" })
-      .getAttribute("href");
-  }
-  async getTwitterHref() {
-    return await this.page
-      .getByRole("link", { name: "Twitter" })
-      .getAttribute("href");
-  }
-
-  async getCopywhriteText() {
-    return await this.page.locator(".footer_copy").textContent();
-  }
-
   async sortingPriceDesc() {
+    await this.sortingSelector.click();
     await this.sortingSelector.selectOption("hilo");
   }
   async sortingPriceAsc() {
+    await this.sortingSelector.click();
     await this.sortingSelector.selectOption("lohi");
   }
 
   async getAllItems() {
     return this.page.locator(".inventory_item").all();
+  }
+
+  async addItemToCart(item) {
+    return await item.getByRole("button", { name: "Add to cart" }).click();
+  }
+
+  async deleteItemFromCart(item) {
+    return await item.getByRole("button", { name: "Remove" }).click();
+  }
+
+  async getCartButtonOfItem(item) {
+    return await item.getByRole("button");
+  }
+
+  async getPriceFromItem(item) {
+    return await item.locator(".inventory_item_price").innerText();
+  }
+
+  async getProductsName(item) {
+    return await item.locator(".inventory_item_name").innerText();
+  }
+
+  async goToProductPage(item) {
+    const clickableNameOfProduct = item.locator(".inventory_item_name");
+    await clickableNameOfProduct.click();
   }
 
   async getArrayProductsId(allItems) {
