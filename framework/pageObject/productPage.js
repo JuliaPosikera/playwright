@@ -27,4 +27,12 @@ export class ProductPage {
   async getPriceOfItem() {
     return await this.productPrice.innerText();
   }
+
+  async addToCart() {
+    await this.buttonAddRemoveCart.click();
+  }
+
+  async deleteFromCart() {
+    await this.buttonAddRemoveCart.click();
+  }
 }

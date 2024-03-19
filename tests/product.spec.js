@@ -1,4 +1,6 @@
+import { createDiffieHellmanGroup } from "crypto";
 import { test, expect } from "../framework/fixtures/login.js";
+import { ProductPage } from "../framework/pageObject/productPage.js";
 import { expectedData } from "./testData/expectedResults.js";
 
 test.describe("product page", () => {
@@ -15,5 +17,15 @@ test.describe("product page", () => {
     expect(await productPage.footer.getLinkedInHref()).toEqual(
       expectedData.linkedInLink
     );
+  });
+
+  test("add and delete items from cart", async ({ productPage }) => {
+    await productPage.addToCart();
+    const cartQuantityLocator = await productPage.header.cartQuantity;
+    const newCartQuantity = await cartQuantityLocator.innerText();
+    expect(newCartQuantity).toEqual("1");
+    await productPage.deleteFromCart();
+
+    expect(cartQuantityLocator).toBeHidden();
   });
 });
