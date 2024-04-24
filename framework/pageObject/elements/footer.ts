@@ -1,8 +1,12 @@
+import { Page } from "@playwright/test";
+
 export class PageFooter {
   /**
    * @param {import('@playwright/test').Page} page
    */
-  constructor(page) {
+  page: Page;
+
+  constructor(page: Page) {
     this.page = page;
   }
 

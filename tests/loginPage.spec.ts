@@ -1,19 +1,34 @@
-// @ts-check
+//@ts-check
 
 // import { test, expect } from "@playwright/test";
 import { test, expect } from "../framework/fixtures/login";
 import { LoginPage } from "../framework/pageObject/loginPage";
 
-const user = {
-  user: process.env.USERNAME_STANDART,
-  pass: process.env.PASSWORD_STANDART,
+interface UserCredentials {
+  user: string;
+  pass: string;
+}
+
+const user: UserCredentials = {
+  user: process.env.USERNAME_STANDART || process.env.USERNAME_NOTEXIST || "",
+  pass: process.env.PASSWORD_STANDART || "" || "WrongPass",
 };
-const userWoutUserName = { user: "", pass: process.env.PASSWORD_STANDART };
-const userWOutPass = { user: process.env.USERNAME_STANDART, pass: "" };
-const userNotExist = { user: process.env.USERNAME_NOTEXIST, pass: "1234" };
-const userLocked = {
-  user: process.env.USERNAME_LOCKED,
-  pass: process.env.PASSWORD_STANDART,
+
+const userWoutUserName: UserCredentials = {
+  user: "",
+  pass: process.env.PASSWORD_STANDART || "",
+};
+const userWOutPass: UserCredentials = {
+  user: process.env.USERNAME_STANDART || "",
+  pass: "",
+};
+const userNotExist: UserCredentials = {
+  user: process.env.USERNAME_NOTEXIST || "",
+  pass: "WrongPass",
+};
+const userLocked: UserCredentials = {
+  user: process.env.USERNAME_LOCKED || "",
+  pass: process.env.PASSWORD_STANDART || "",
 };
 
 test("login_w/out username", async ({ loginPage }) => {

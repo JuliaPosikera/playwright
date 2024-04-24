@@ -1,9 +1,14 @@
 import { test, expect } from "../framework/fixtures/login.js";
 import { ProductPage } from "../framework/pageObject/productPage.js";
+import { ProductsPage } from "../framework/pageObject/productsPage.js";
 import { expectedData } from "./testData/expectedResults.js";
 
 test.describe("products", () => {
-  test("validating footer information", async ({ productsPage }) => {
+  test("validating footer information", async ({
+    productsPage,
+  }: {
+    productsPage: ProductsPage;
+  }) => {
     expect(await productsPage.footer.getCopywhriteText()).toEqual(
       expectedData.copywhriteText
     );
@@ -18,7 +23,11 @@ test.describe("products", () => {
     );
   });
 
-  test("sorting price from hight to low", async ({ productsPage }) => {
+  test("sorting price from hight to low", async ({
+    productsPage,
+  }: {
+    productsPage: ProductsPage;
+  }) => {
     await productsPage.sortingPriceDesc();
     const allItems = await productsPage.getAllItems();
     const itemsId = await productsPage.getArrayProductsId(allItems);
@@ -27,7 +36,11 @@ test.describe("products", () => {
     ).toBeTruthy();
   });
 
-  test("sorting price from low to hight", async ({ productsPage }) => {
+  test("sorting price from low to hight", async ({
+    productsPage,
+  }: {
+    productsPage: ProductsPage;
+  }) => {
     await productsPage.sortingPriceAsc();
     const allItems = await productsPage.getAllItems();
     const itemsId = await productsPage.getArrayProductsId(allItems);
@@ -36,7 +49,11 @@ test.describe("products", () => {
     ).toBeTruthy();
   });
 
-  test("sorting name from a-z ", async ({ productsPage }) => {
+  test("sorting name from a-z ", async ({
+    productsPage,
+  }: {
+    productsPage: ProductsPage;
+  }) => {
     await productsPage.sortingNameAz();
     const allItems = await productsPage.getAllItems();
     const itemsId = await productsPage.getArrayProductsId(allItems);
@@ -45,7 +62,11 @@ test.describe("products", () => {
     ).toBeTruthy();
   });
 
-  test("sorting name from z-a", async ({ productsPage }) => {
+  test("sorting name from z-a", async ({
+    productsPage,
+  }: {
+    productsPage: ProductsPage;
+  }) => {
     await productsPage.sortingNameZa();
     const allItems = await productsPage.getAllItems();
     const itemsId = await productsPage.getArrayProductsId(allItems);
@@ -54,7 +75,13 @@ test.describe("products", () => {
     ).toBeTruthy();
   });
 
-  test("addItemToCart", async ({ productsPage, page }) => {
+  test("addItemToCart", async ({
+    productsPage,
+    page,
+  }: {
+    productsPage: ProductsPage;
+    page: any;
+  }) => {
     const allItems = await productsPage.getAllItems();
     const itemsQuantity = allItems.length;
 
@@ -74,7 +101,13 @@ test.describe("products", () => {
     expect(cartFromLacalStorageArray.length).toEqual(itemsQuantity);
   });
 
-  test("redirect to product page", async ({ productsPage, page }) => {
+  test("redirect to product page", async ({
+    productsPage,
+    page,
+  }: {
+    productsPage: ProductsPage;
+    page: any;
+  }) => {
     const allItems = await productsPage.getAllItems();
     const firtsItem = allItems[0];
     const productPage = new ProductPage(page);
@@ -96,7 +129,13 @@ test.describe("products", () => {
     expect(page.url()).toEqual("https://www.saucedemo.com/inventory.html");
   });
 
-  test("side menu comands", async ({ productsPage, page }) => {
+  test("side menu comands", async ({
+    productsPage,
+    page,
+  }: {
+    productsPage: ProductsPage;
+    page: any;
+  }) => {
     await productsPage.header.sidebarMenuButton.click();
     await productsPage.header.aboutMenuItem.click();
 
@@ -107,7 +146,15 @@ test.describe("products", () => {
     expect(page.url()).toEqual("https://www.saucedemo.com/inventory.html");
   });
 
-  test("logout", async ({ productsPage, context, page }) => {
+  test("logout", async ({
+    productsPage,
+    context,
+    page,
+  }: {
+    productsPage: ProductsPage;
+    context: any;
+    page: any;
+  }) => {
     await productsPage.header.sidebarMenuButton.click();
     await productsPage.header.logoutMenuItem.click();
 
@@ -115,7 +162,7 @@ test.describe("products", () => {
 
     const cookies = await context.cookies();
     const sessionUsernameCookie = cookies.find(
-      (cookie) => cookie.name === "session-username"
+      (cookie: any) => cookie.name === "session-username"
     );
     expect(sessionUsernameCookie).toBeFalsy();
   });

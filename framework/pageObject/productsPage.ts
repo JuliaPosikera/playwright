@@ -1,11 +1,18 @@
 import { PageHeader } from "./elements/header";
 import { PageFooter } from "./elements/footer";
+import { Page, Locator } from "@playwright/test";
 
 export class ProductsPage {
   /**
    * @param {import('@playwright/test').Page} page
    */
-  constructor(page) {
+  url: string;
+  page: Page;
+  header: PageHeader;
+  footer: PageFooter;
+  sortingSelector: import("@playwright/test").Locator;
+
+  constructor(page: Page) {
     this.url = "https://www.saucedemo.com/inventory.html";
     this.page = page;
     this.header = new PageHeader(page);
@@ -40,40 +47,41 @@ export class ProductsPage {
     return this.page.locator(".inventory_item").all();
   }
 
-  async addItemToCart(item) {
+  async addItemToCart(item: Locator) {
     return await item.getByRole("button", { name: "Add to cart" }).click();
   }
 
-  async deleteItemFromCart(item) {
+  async deleteItemFromCart(item: Locator) {
     return await item.getByRole("button", { name: "Remove" }).click();
   }
 
-  async getCartButtonOfItem(item) {
+  async getCartButtonOfItem(item: Locator) {
     return await item.getByRole("button");
   }
 
-  async getPriceFromItem(item) {
+  async getPriceFromItem(item: Locator) {
     return await item.locator(".inventory_item_price").innerText();
   }
 
-  async getProductsName(item) {
+  async getProductsName(item: Locator) {
     return await item.locator(".inventory_item_name").innerText();
   }
 
-  async goToProductPage(item) {
+  async goToProductPage(item: Locator) {
     const clickableNameOfProduct = item.locator(".inventory_item_name");
     await clickableNameOfProduct.click();
   }
 
-  async getArrayProductsId(allItems) {
-    let itemsArray = [];
+  async getArrayProductsId(allItems: Locator[]) {
+    let itemsArray: number[] = [];
     for (const item of allItems) {
       const idAttribute = await item
         .locator(".inventory_item_label")
         .getByRole("link")
         .getAttribute("id");
-      const numberFromId = idAttribute
-        ? parseInt(idAttribute.match(/\d+/)[0])
+      const arrayOfStrings = (idAttribute && idAttribute.match(/\d+/)) ?? ["0"];
+      const numberFromId: number = idAttribute
+        ? parseInt(arrayOfStrings[0])
         : NaN;
 
       itemsArray.push(numberFromId);

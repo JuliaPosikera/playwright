@@ -1,10 +1,13 @@
-import { createDiffieHellmanGroup } from "crypto";
 import { test, expect } from "../framework/fixtures/login.js";
 import { ProductPage } from "../framework/pageObject/productPage.js";
 import { expectedData } from "./testData/expectedResults.js";
 
 test.describe("product page", () => {
-  test("validating footer information", async ({ productPage }) => {
+  test("validating footer information", async ({
+    productPage,
+  }: {
+    productPage: ProductPage;
+  }) => {
     expect(await productPage.footer.getCopywhriteText()).toEqual(
       expectedData.copywhriteText
     );
@@ -19,9 +22,13 @@ test.describe("product page", () => {
     );
   });
 
-  test("add and delete items from cart", async ({ productPage }) => {
+  test("add and delete items from cart", async ({
+    productPage,
+  }: {
+    productPage: ProductPage;
+  }) => {
     await productPage.addToCart();
-    const cartQuantityLocator = await productPage.header.cartQuantity;
+    const cartQuantityLocator = productPage.header.cartQuantity;
     const newCartQuantity = await cartQuantityLocator.innerText();
     expect(newCartQuantity).toEqual("1");
     await productPage.deleteFromCart();

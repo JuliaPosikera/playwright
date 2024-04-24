@@ -1,8 +1,22 @@
+import { Page, Locator } from "@playwright/test";
+
 export class LoginPage {
   /**
    * @param {import('@playwright/test').Page} page
    */
-  constructor(page) {
+
+  page: Page;
+  url: string;
+  urlProducts: string;
+  loginField: Locator;
+  passField: Locator;
+  loginButton: Locator;
+  errorUserIsRequired: Locator;
+  errorPassIsRequired: Locator;
+  errorUserIsLocked: Locator;
+  errorUserNotExist: Locator;
+
+  constructor(page: Page) {
     this.url = "https://www.saucedemo.com/";
     this.urlProducts = "https://www.saucedemo.com/inventory.html";
     this.page = page;

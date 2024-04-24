@@ -1,9 +1,17 @@
+import { Page, Locator } from "@playwright/test";
 export class PageHeader {
   /**
    * @param {import('@playwright/test').Page} page
    */
+  cartButton: Locator;
+  cartQuantity: Locator;
+  sidebarMenuButton: Locator;
+  allProductsMenuItem: Locator;
+  aboutMenuItem: Locator;
+  logoutMenuItem: Locator;
+  resetMenuItem: Locator;
 
-  constructor(page) {
+  constructor(page: Page) {
     this.cartButton = page.locator(".shopping_cart_link");
     this.cartQuantity = page.locator(".shopping_cart_badge");
     this.sidebarMenuButton = page.locator("#react-burger-menu-btn");

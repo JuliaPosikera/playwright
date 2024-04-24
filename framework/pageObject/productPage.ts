@@ -1,11 +1,20 @@
 import { PageFooter } from "./elements/footer";
 import { PageHeader } from "./elements/header";
-
+import { Page, Locator } from "@playwright/test";
 export class ProductPage {
   /**
    * @param {import('@playwright/test').Page} page
    */
-  constructor(page) {
+
+  page: Page;
+  footer: PageFooter;
+  header: PageHeader;
+  buttonAddRemoveCart: Locator;
+  buttonBackToProducts: Locator;
+  largeInventoryName: Locator;
+  productPrice: Locator;
+
+  constructor(page: Page) {
     this.footer = new PageFooter(page);
     this.header = new PageHeader(page);
     this.buttonAddRemoveCart = page.locator(".btn_inventory");

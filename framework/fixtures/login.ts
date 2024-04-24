@@ -4,7 +4,13 @@ import { cookieForStandartUser } from "../../tests/testData/preparedData";
 import { ProductPage } from "../pageObject/productPage";
 import { LoginPage } from "../pageObject/loginPage";
 
-export const test = base.test.extend({
+type MyFixtures = {
+  productsPage: ProductsPage;
+  productPage: ProductPage;
+  loginPage: LoginPage;
+};
+
+export const test = base.extend<MyFixtures>({
   productsPage: async ({ page, context }, use) => {
     const productsPage = new ProductsPage(page);
 
