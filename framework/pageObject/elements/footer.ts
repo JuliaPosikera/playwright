@@ -1,10 +1,12 @@
-import { Page } from "@playwright/test";
+import { Locator, Page } from "@playwright/test";
 
 export class PageFooter {
   /**
    * @param {import('@playwright/test').Page} page
    */
   page: Page;
+
+  playstoreButton: Locator;
 
   constructor(page: Page) {
     this.page = page;

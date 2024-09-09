@@ -19,5 +19,9 @@ export class PageHeader {
     this.aboutMenuItem = page.locator("#about_sidebar_link");
     this.logoutMenuItem = page.locator("#logout_sidebar_link");
     this.resetMenuItem = page.locator("#reset_sidebar_link");
-  }
+  } 
+
+  
+
+
 }

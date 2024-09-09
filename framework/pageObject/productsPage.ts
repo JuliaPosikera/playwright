@@ -10,7 +10,7 @@ export class ProductsPage {
   page: Page;
   header: PageHeader;
   footer: PageFooter;
-  sortingSelector: import("@playwright/test").Locator;
+  sortingSelector: Locator;
 
   constructor(page: Page) {
     this.url = "https://www.saucedemo.com/inventory.html";
@@ -56,7 +56,7 @@ export class ProductsPage {
   }
 
   async getCartButtonOfItem(item: Locator) {
-    return await item.getByRole("button");
+    return item.getByRole("button");
   }
 
   async getPriceFromItem(item: Locator) {
